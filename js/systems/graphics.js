@@ -1,5 +1,9 @@
 var GraphicsSystem = function(entities) {
     this.entities = entities;
+    //Canvas where we draw
+    this.canvas = document.getElementbyId('main-canvas');
+    // Context is what we draw to
+    this.context = this.canvas.getContext('2d');
 };
 
 GraphicsSystem.prototype.run = function() {
@@ -10,6 +14,18 @@ GraphicsSystem.prototype.run = function() {
 };
 
 GraphicsSystem.prototype.tick = function() {
+
+  //Set the canvas to the correct size if the window is resized
+  if (this.canvas.width != this.canvas.offsetWidth ||
+      this.canvas.height != this.canvas.offsetHeight) {
+      this.canvas.width = this.canvas.offsetWidth;
+      this.canvas.height = this.canvas.offsetHeight;
+  }
+
+  // Clear the canvas
+  this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+  //Rendering goes here
     for (var i=0; i<this.entities.length; i++) {
         var entity = this.entities[i];
         if (!'graphics' in entity.components) {
